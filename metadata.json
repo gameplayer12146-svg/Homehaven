@@ -1,0 +1,6 @@
+{
+  "name": "HomeHaven - Home Services Booking Platform",
+  "description": "On-demand home services booking platform connecting customers with vetted plumbers, electricians, cleaners, AC technicians, and more.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
