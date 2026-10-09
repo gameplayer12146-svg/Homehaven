@@ -23,7 +23,6 @@ import { ManageProviders } from './pages/admin/ManageProviders.js';
 import { ManageBookings } from './pages/admin/ManageBookings.js';
 import { Login } from './pages/Login.js';
 import { Register } from './pages/Register.js';
-import { MongoArchitecturePage } from './pages/MongoArchitecturePage.js';
 
 function MainApp() {
   const { user } = useAuth();
@@ -97,9 +96,6 @@ function MainApp() {
 
       case 'register':
         return <Register onNavigate={navigate} />;
-
-      case 'mongodb-architecture':
-        return <MongoArchitecturePage onNavigate={navigate} />;
 
       default:
         return <Home onNavigate={navigate} />;

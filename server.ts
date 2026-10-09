@@ -1,15 +1,24 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fs from 'fs';
+import dotenv from 'dotenv';
 import authRoutes from './server/routes/auth.js';
 import servicesRoutes from './server/routes/services.js';
 import providersRoutes from './server/routes/providers.js';
 import bookingsRoutes from './server/routes/bookings.js';
 import reviewsRoutes from './server/routes/reviews.js';
 import adminRoutes from './server/routes/admin.js';
-import mongodbRoutes from './server/routes/mongodb.js';
 import { errorHandler } from './server/middleware/errorHandler.js';
 import { runSeed } from './server/seed.js';
+import { connectMongo, syncToMongo } from './server/config/mongo.js';
+import { db } from './server/config/db.js';
+
+// Load .env and app.env
+dotenv.config();
+if (fs.existsSync(path.resolve(process.cwd(), 'app.env'))) {
+  dotenv.config({ path: path.resolve(process.cwd(), 'app.env') });
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,8 +27,12 @@ async function startServer() {
   const app = express();
   const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
+  // Connect to MongoDB if available (e.g. from app.env / MongoDB Compass)
+  await connectMongo();
+
   // Initialize seed data
   await runSeed();
+  await syncToMongo(db as any);
 
   // Middleware
   app.use(express.json());
@@ -38,7 +51,6 @@ async function startServer() {
   app.use('/api/bookings', bookingsRoutes);
   app.use('/api/reviews', reviewsRoutes);
   app.use('/api/admin', adminRoutes);
-  app.use('/api/mongodb', mongodbRoutes);
 
   // Global Error Handler for API
   app.use(errorHandler);

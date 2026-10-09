@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { syncToMongo } from './mongo.js';
 
 export interface Address {
   _id?: string;
@@ -134,6 +135,8 @@ class DatabaseStore {
         fs.mkdirSync(DATA_DIR, { recursive: true });
       }
       fs.writeFileSync(DB_FILE, JSON.stringify(this.state, null, 2), 'utf-8');
+      // Synchronize changes to MongoDB if connected
+      syncToMongo(this.state).catch(() => {});
     } catch (e) {
       console.warn('Error saving to db.json', e);
     }

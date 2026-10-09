@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext.js';
-import { Wrench, User, LogOut, Menu, X, Shield, Calendar, Layers, MapPin, Database } from 'lucide-react';
+import { Wrench, User, LogOut, Menu, X, Shield, Calendar, Layers, MapPin } from 'lucide-react';
 
 interface NavbarProps {
   currentTab: string;
@@ -63,17 +63,6 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, onNavigate }) => {
 
         {/* Zone 3: 1 Primary Action / User Account */}
         <div className="flex items-center gap-3 shrink-0">
-          <button
-            type="button"
-            onClick={() => onNavigate('mongodb-architecture')}
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-stone-200/90 bg-white hover:bg-stone-50 text-xs font-semibold text-stone-700 transition-colors shadow-2xs cursor-pointer"
-            title="Inspect MongoDB Architecture, Steps & CRUD Simulator"
-          >
-            <Database className="w-3.5 h-3.5 text-emerald-600" />
-            <span>MongoDB Specs</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          </button>
-
           {user ? (
             <div className="relative">
               <button
